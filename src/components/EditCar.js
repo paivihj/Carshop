@@ -1,0 +1,118 @@
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+
+function EditCar(props) {
+  const [open, setOpen] = React.useState(false);
+  const [car, setCar] = React.useState({ 
+      brand: '', 
+      model: '', 
+      color: '', 
+      fuel: '', 
+      year:'', 
+      price: ''
+    });
+
+  const handleClickOpen = () => {
+    setCar({
+        brand: props.params.data.brand,
+        model: props.params.data.model,
+        color: props.params.data.color,
+        fuel: props.params.data.fuel,
+        year: props.params.data.year,
+        price: props.params.data.price
+    })
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSave = () => {
+    props.editCar(props.params.value, car)
+    handleClose();
+  };
+
+  const inputChanged = (event) => {
+    setCar({...car, [event.target.name]: event.target.value});
+  };
+
+    return (
+        <div>
+            <IconButton color="default" onClick={handleClickOpen}>
+                <EditIcon />
+            </IconButton>
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Edit Car</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        label="Brand"
+                        name="brand"
+                        value={car.brand}
+                        onChange={inputChanged}
+                        fullWidth
+                    />
+                    <TextField
+                        margin="dense"
+                        label="Model"
+                        name="model"
+                        value={car.model}
+                        onChange={inputChanged}
+                        fullWidth
+                    />
+                    <TextField
+                        margin="dense"
+                        label="Color"
+                        name="color"
+                        value={car.color}
+                        onChange={inputChanged}
+                        fullWidth
+                    />
+                    <TextField
+                        margin="dense"
+                        label="Fuel"
+                        name="fuel"
+                        value={car.fuel}
+                        onChange={inputChanged}
+                        fullWidth
+                    />
+                    <TextField
+                        margin="dense"
+                        label="Year"
+                        name="year"
+                        value={car.year}
+                        onChange={inputChanged}
+                        fullWidth
+                    />
+                    <TextField
+                        margin="dense"
+                        label="Price"
+                        name="price"
+                        value={car.price}
+                        onChange={inputChanged}
+                        fullWidth
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleSave} color="primary">
+                        Save Changes
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </div>
+    )
+}
+
+export default EditCar;
